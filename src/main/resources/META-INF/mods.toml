@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT License"
+
+[[mods]]
+modId="lifechoice"
+version="${file.jarVersion}"
+displayName="Life Choice"
+authors="Team Potato"
+description='''
+Life Choice
+'''
