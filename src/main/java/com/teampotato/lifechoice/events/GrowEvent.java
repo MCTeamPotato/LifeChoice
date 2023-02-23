@@ -1,5 +1,6 @@
 package com.teampotato.lifechoice.events;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
@@ -25,18 +26,27 @@ public class GrowEvent {
                 IWorld world = event.getWorld();
                 BlockPos pos = event.getPos();
                 int flower = numberChecker(pos, world);
-
                 BlockState deadBush = Blocks.DEAD_BUSH.defaultBlockState();
-
-                BlockPos death = deathFinder(pos, world);
-                if (death.getY() != 0 && toBeOrNotToBe(death, world) >= 3) world.setBlock(death, state.getBlock().defaultBlockState(), 11);
-
                 if (flower > 3) {
                     world.setBlock(pos, deadBush, 11);
                 } else if (flower < 2) {
                     world.setBlock(pos, deadBush, 11);
                 }
 
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDeath(BlockEvent.CropGrowEvent.Pre event) {
+        BlockState state = event.getState();
+        Block block = state.getBlock();
+        if (block instanceof CropsBlock){
+            int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
+            if (!(age <= 3) && age != 7) {
+                IWorld world = event.getWorld();
+                BlockPos death = deathFinder(event.getPos(), world);
+                if (death.getY() != 0 && toBeOrNotToBe(death, world) >= 3) world.setBlock(death, block.defaultBlockState(), 11);
             }
         }
     }
