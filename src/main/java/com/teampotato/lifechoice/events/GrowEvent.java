@@ -20,20 +20,17 @@ public class GrowEvent {
     @SubscribeEvent
     public static void onGrowUp(BlockEvent.CropGrowEvent.Pre event) {
         BlockState state = event.getState();
-        if (state.getBlock() instanceof CropsBlock){
-            int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
-            if (!(age <= 3) && age != 7) {
-                IWorld world = event.getWorld();
-                BlockPos pos = event.getPos();
-                int flower = numberChecker(pos, world);
-                BlockState deadBush = Blocks.DEAD_BUSH.defaultBlockState();
-                if (flower > 3) {
-                    world.setBlock(pos, deadBush, 11);
-                } else if (flower < 2) {
-                    world.setBlock(pos, deadBush, 11);
-                }
-
-            }
+        if (!(state.getBlock() instanceof CropsBlock)) return;
+        int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
+        if (age <= 3 || age == 7) return;
+        IWorld world = event.getWorld();
+        BlockPos pos = event.getPos();
+        int flower = numberChecker(pos, world);
+        BlockState deadBush = Blocks.DEAD_BUSH.defaultBlockState();
+        if (flower > 3) {
+            world.setBlock(pos, deadBush, 11);
+        } else if (flower < 2) {
+            world.setBlock(pos, deadBush, 11);
         }
     }
 
@@ -41,14 +38,12 @@ public class GrowEvent {
     public static void onDeath(BlockEvent.CropGrowEvent.Pre event) {
         BlockState state = event.getState();
         Block block = state.getBlock();
-        if (block instanceof CropsBlock){
-            int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
-            if (!(age <= 3) && age != 7) {
-                IWorld world = event.getWorld();
-                BlockPos death = deathFinder(event.getPos(), world);
-                if (death.getY() != 0 && toBeOrNotToBe(death, world) >= 3) world.setBlock(death, block.defaultBlockState(), 11);
-            }
-        }
+        if (!(block instanceof CropsBlock)) return;
+        int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
+        if (age <= 3 || age == 7) return;
+        IWorld world = event.getWorld();
+        BlockPos death = deathFinder(event.getPos(), world);
+        if (death.getY() != 0 && toBeOrNotToBe(death, world) >= 3) world.setBlock(death, block.defaultBlockState(), 11);
     }
 
     @SubscribeEvent
