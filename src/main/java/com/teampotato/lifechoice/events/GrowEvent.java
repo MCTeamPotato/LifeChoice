@@ -20,13 +20,15 @@ public class GrowEvent {
     @SubscribeEvent
     public static void onGrowUp(BlockEvent.CropGrowEvent.Pre event) {
         BlockState state = event.getState();
-        if (!(state.getBlock() instanceof CropsBlock)) return;
         int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
-        if (age <= 3 || age == 7) return;
         IWorld world = event.getWorld();
+
+        if (!(state.getBlock() instanceof CropsBlock) || (age <= 3 || age == 7) || world.isClientSide()) return;
+
         BlockPos pos = event.getPos();
-        int flower = numberChecker(pos, world);
         BlockState deadBush = Blocks.DEAD_BUSH.defaultBlockState();
+        int flower = numberChecker(pos, world);
+
         if (flower > 3) {
             world.setBlock(pos, deadBush, 11);
         } else if (flower < 2) {
@@ -38,10 +40,9 @@ public class GrowEvent {
     public static void onDeath(BlockEvent.CropGrowEvent.Pre event) {
         BlockState state = event.getState();
         Block block = state.getBlock();
-        if (!(block instanceof CropsBlock)) return;
         int age = state.getValue(((CropsBlock)state.getBlock()).getAgeProperty());
-        if (age <= 3 || age == 7) return;
         IWorld world = event.getWorld();
+        if (!(block instanceof CropsBlock) || (age <= 3 || age == 7) || world.isClientSide()) return;
         BlockPos death = deathFinder(event.getPos(), world);
         if (death.getY() != 0 && toBeOrNotToBe(death, world) >= 3) world.setBlock(death, block.defaultBlockState(), 11);
     }
@@ -50,6 +51,7 @@ public class GrowEvent {
     public static void onBoneMeal(PlayerInteractEvent.RightClickBlock event) {
         if (!DISABLE_BONE_MEAL.get()) return;
         World world = event.getWorld();
+        if (world.isClientSide()) return;
         BlockPos pos = event.getPos();
         if (
                 regName(world.getBlockState(pos)).equals("minecraft:bone_meal") &&
