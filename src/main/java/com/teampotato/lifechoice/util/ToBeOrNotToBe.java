@@ -14,7 +14,7 @@ public class ToBeOrNotToBe {
     public static String regName(BlockState state) {
         return Objects.requireNonNull(state.getBlock().getRegistryName()).toString();
     }
-
+//TODO: optimize
     public static Integer numberChecker(BlockPos init, IWorld world) {
         int number = 0;
         for (int i = init.getY() + CROPS_Y_DETECTION.get(); i >= init.getY() - CROPS_Y_DETECTION.get(); i --) {
