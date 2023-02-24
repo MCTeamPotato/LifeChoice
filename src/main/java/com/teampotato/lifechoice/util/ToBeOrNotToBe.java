@@ -19,6 +19,7 @@ public class ToBeOrNotToBe {
 
     public static List<BlockPos> getDetectionPositions(BlockPos init) {
         List<BlockPos> positions = new ArrayList<>();
+        //Is there a way to optimize? help wanted qwq
         for (int i = init.getY() + CROPS_Y_DETECTION.get(); i >= init.getY() - CROPS_Y_DETECTION.get(); i--) {
             for (int j = init.getX() + CROPS_X_DETECTION.get(); j >= init.getX() - CROPS_X_DETECTION.get(); j--) {
                 for (int k = init.getZ() + CROPS_Z_DETECTION.get(); k >= init.getZ() - CROPS_Z_DETECTION.get(); k--) {
