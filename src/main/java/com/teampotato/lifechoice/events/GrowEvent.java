@@ -49,9 +49,8 @@ public class GrowEvent {
 
     @SubscribeEvent
     public static void onBoneMeal(PlayerInteractEvent.RightClickBlock event) {
-        if (!DISABLE_BONE_MEAL.get()) return;
         World world = event.getWorld();
-        if (world.isClientSide()) return;
+        if (world.isClientSide() || !DISABLE_BONE_MEAL.get()) return;
         BlockPos pos = event.getPos();
         if (
                 regName(world.getBlockState(pos)).equals("minecraft:bone_meal") &&
