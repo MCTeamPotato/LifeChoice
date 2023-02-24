@@ -33,18 +33,14 @@ public class ToBeOrNotToBe {
         String initRegName = regName(world.getBlockState(init));
         int number = 0;
         for (BlockPos pos : getDetectionPositions(init)) {
-            if (regName(world.getBlockState(pos)).equals(initRegName)) {
-                number += 1;
-            }
+            if (regName(world.getBlockState(pos)).equals(initRegName)) number += 1;
         }
         return (number - 1);
     }
 
     public static BlockPos deathFinder(BlockPos init, IWorld world) {
         for (BlockPos pos : getDetectionPositions(init)) {
-            if (regName(world.getBlockState(pos)).equals("minecraft:dead_bush")) {
-                return pos;
-            }
+            if (regName(world.getBlockState(pos)).equals("minecraft:dead_bush")) return pos;
         }
         return new BlockPos(0, 0, 0);
     }
@@ -52,9 +48,7 @@ public class ToBeOrNotToBe {
     public static int toBeOrNotToBe(BlockPos init, IWorld world) {
         int number = 0;
         for (BlockPos pos : getDetectionPositions(init)) {
-            if (world.getBlockState(pos).getBlock() instanceof CropsBlock) {
-                number += 1;
-            }
+            if (world.getBlockState(pos).getBlock() instanceof CropsBlock) number += 1;
         }
         return number;
     }
