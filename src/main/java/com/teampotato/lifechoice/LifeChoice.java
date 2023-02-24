@@ -30,6 +30,5 @@ public class LifeChoice {
     public LifeChoice() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG);
         MinecraftForge.EVENT_BUS.register(this);
-        System.out.println("\u5371\u673a\u7eaa\u5143\u5143\u5e74\uff1a\u751f\u547d\u9009\u9879");
     }
 }
