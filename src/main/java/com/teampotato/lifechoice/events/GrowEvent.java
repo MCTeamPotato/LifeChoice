@@ -54,8 +54,6 @@ public class GrowEvent {
         if (
                 regName(world.getBlockState(pos)).equals("minecraft:bone_meal") &&
                 world.getBlockState(pos).getBlock() instanceof CropsBlock
-        ) {
-            event.setCanceled(true);
-        }
+        ) event.setCanceled(true);
     }
 }
